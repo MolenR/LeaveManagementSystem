@@ -49,11 +49,11 @@ public class LeaveRequestsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ApproveRequest(int id, bool approved)
+    public async Task<IActionResult> ApproveRequest(int id, bool approved) /* ID = 0 */
     {
         try
         {
-            await leaveRequestRepo.ChangeApprovalStatus(id, approved); /* NULL REFERNCE EXCEPTION ID=0*/
+            await leaveRequestRepo.ChangeApprovalStatus(id, approved);
         }
         catch (Exception)
         {
@@ -66,11 +66,11 @@ public class LeaveRequestsController : Controller
 
     [HttpPost, ActionName("Cancel")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Cancel(int id)
+    public async Task<IActionResult> Cancel(int id) 
     {
         try
         {
-            await leaveRequestRepo.CancelLeaveRequest(id); /* NULL REFERENCE EXCEPTION. ID = 0 */
+            await leaveRequestRepo.CancelLeaveRequest(id); 
         }
         catch (Exception)
         {

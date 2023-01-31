@@ -10,7 +10,7 @@ public class LeaveRequest : BaseData
     public DateTime DateRequested { get; set; }
 
     [ForeignKey("LeaveTypeId")]
-    public LeaveType LeaveType { get; set; }
+    public LeaveType? LeaveType { get; set; }
     public int LeaveTypeId { get; set; }
     
     public string? RequestComment { get; set; }
@@ -18,5 +18,5 @@ public class LeaveRequest : BaseData
     public bool? Approved { get; set; }
     public bool Cancelled { get; set; }
 
-    public string RequestEmployeeId { get; set; }
+    public string? RequestEmployeeId { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using LeaveManagement.Data;
 using LeaveManagement.MVC.Constants;
 using LeaveManagement.MVC.Data;
@@ -14,28 +15,31 @@ namespace LeaveManagement.MVC.Repositories;
 
 public class LeaveAllocationRepo : GenericRepo<LeaveAllocation>, ILeaveAllocationRepo
 {
-    private new readonly ApplicationDbContext context;
-    private readonly UserManager<Employee> userManager;
-    private readonly ILeaveTypeRepo leaveTypeRepo;
-    private readonly IEmailSender emailSender;
-    private readonly IMapper mapper;
+    private readonly ApplicationDbContext _context;
+    private readonly UserManager<Employee> _userManager;
+    private readonly ILeaveTypeRepo _leaveTypeRepo;
+    private readonly AutoMapper.IConfigurationProvider _configurationProvider;
+    private readonly IEmailSender _emailSender;
+    private readonly IMapper _mapper;
 
     public LeaveAllocationRepo(ApplicationDbContext context,
         UserManager<Employee> userManager,
         ILeaveTypeRepo leaveTypeRepo,
+        AutoMapper.IConfigurationProvider configurationProvider,
         IEmailSender emailSender,
         IMapper mapper) : base(context)
     {
-        this.context = context;
-        this.userManager = userManager;
-        this.leaveTypeRepo = leaveTypeRepo;
-        this.emailSender = emailSender;
-        this.mapper = mapper;
+        _context = context;
+        _userManager = userManager;
+        _leaveTypeRepo = leaveTypeRepo;
+        _configurationProvider = configurationProvider;
+        _emailSender = emailSender;
+        _mapper = mapper;
     }
 
     public async Task<bool> AllocationExists(string employeeId, int leaveTypeId, int period)
     {
-        return await context.LeaveAllocations
+        return await _context.LeaveAllocations
             .AnyAsync(
                 q => q.EmployeeId == employeeId && 
                 q.LeaveTypeId == leaveTypeId && 
@@ -45,35 +49,32 @@ public class LeaveAllocationRepo : GenericRepo<LeaveAllocation>, ILeaveAllocatio
 
     public async Task<EmployeeAllocationViewModel> GetEmployeeAllocations(string employeeId)
     {
-        var allocations = await context.LeaveAllocations
+        var allocations = await _context.LeaveAllocations
             .Include(q => q.LeaveType)
             .Where(q => q.EmployeeId == employeeId)
+            .ProjectTo<LeaveAllocationViewModel>(_configurationProvider)
             .ToListAsync();
         
-        var employee = await userManager.FindByIdAsync(employeeId);
+        var employee = await _userManager.FindByIdAsync(employeeId);
 
-        var employeeAllocationModel = mapper.Map<EmployeeAllocationViewModel>(employee);
-        employeeAllocationModel.LeaveAllocations = mapper.Map<List<LeaveAllocationViewModel>>(allocations);
+        var employeeAllocationModel = _mapper.Map<EmployeeAllocationViewModel>(employee);
+        employeeAllocationModel.LeaveAllocations = allocations;
 
         return employeeAllocationModel;
     }
 
     public async Task<LeaveAllocationEditViewModel> GetEmployeeAllocation(int id)
     {
-        var allocation = await context.LeaveAllocations
+        var allocation = await _context.LeaveAllocations
             .Include(q => q.LeaveType)
+            .ProjectTo<LeaveAllocationEditViewModel>(_configurationProvider)
             .FirstOrDefaultAsync(q => q.Id == id);
 
-        if(allocation == null)
-        {
-            return null;
-        }
+        var employee = await _userManager.FindByIdAsync(allocation.EmployeeId);
 
-        var employee = await userManager.FindByIdAsync(allocation.EmployeeId);
-
-        var model = mapper.Map<LeaveAllocationEditViewModel>(allocation);
+        var model = allocation;
         
-        model.Employee = mapper.Map<EmployeeListViewModel>(await userManager.FindByIdAsync(allocation.EmployeeId));
+        model.Employee = _mapper.Map<EmployeeListViewModel>(await _userManager.FindByIdAsync(allocation.EmployeeId));
 
         return model;
     }
@@ -81,9 +82,9 @@ public class LeaveAllocationRepo : GenericRepo<LeaveAllocation>, ILeaveAllocatio
     /**/
     public async Task LeaveAllocation(int leaveTypeId)
     {
-        var employees = await userManager.GetUsersInRoleAsync(Roles.User);
+        var employees = await _userManager.GetUsersInRoleAsync(Roles.User);
         var period = DateTime.Now.Year;
-        var leaveType = await leaveTypeRepo.GetAsync(leaveTypeId);
+        var leaveType = await _leaveTypeRepo.GetAsync(leaveTypeId);
         var allocations = new List<LeaveAllocation>();
         var employeeNewAllocations = new List<Employee>();
 
@@ -107,7 +108,7 @@ public class LeaveAllocationRepo : GenericRepo<LeaveAllocation>, ILeaveAllocatio
 
         foreach (var employee in employeeNewAllocations)
         {
-            await emailSender.SendEmailAsync(employee.Email,
+            await _emailSender.SendEmailAsync(employee.Email,
             $"Leave ALlocation Posted for {period}", $"Your {leaveType.Name} are set to: {leaveType.DefaultDays}");
         }
     }
@@ -130,9 +131,9 @@ public class LeaveAllocationRepo : GenericRepo<LeaveAllocation>, ILeaveAllocatio
 
     public async Task<LeaveAllocation?> GetEmployeeAllocation(string employeeId, int leaveTypeId)
     {
-        return await context.LeaveAllocations
+        return await _context.LeaveAllocations
             .FirstOrDefaultAsync(
-                get => get.EmployeeId == employeeId && 
+                get => get.EmployeeId == employeeId &&
                 get.LeaveTypeId == leaveTypeId
             );
     }
