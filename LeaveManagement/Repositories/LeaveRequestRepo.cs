@@ -41,14 +41,22 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
     public async Task ChangeApprovalStatus(int leaveRequestId, bool approved)
     {
         var leaveRequest = await GetAsync(leaveRequestId);
-        leaveRequest.Approved = approved;
+        
+        if(leaveRequest == null)
+        {
+            return;
+        }
 
+        leaveRequest.Approved = approved; /* NULL REFERNCE EXCEPTION ID=0 */
+        
         if (approved)
         {
             var allocation = await leaveAllocationRepo.GetEmployeeAllocation(leaveRequest.RequestEmployeeId, leaveRequest.LeaveTypeId);
-            int daysRequested = (int)(leaveRequest.EndDate - leaveRequest.StartDate).TotalDays;
-            allocation.NumberOfDays -= daysRequested;
             
+            int daysRequested = (int)(leaveRequest.EndDate - leaveRequest.StartDate).TotalDays;
+            
+            allocation.NumberOfDays -= daysRequested; /* NULL REFERNCE EXCEPTION ID=0 */
+
             await leaveAllocationRepo.UpdateAsync(allocation);
         }
 
@@ -57,7 +65,8 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
         var user = await userManager.FindByIdAsync(leaveRequest.RequestEmployeeId);
 
         var approvalStatus = approved ? "Approved" : "Declined";
-        await emailSender.SendEmailAsync(user?.Email,
+       
+        await emailSender.SendEmailAsync(user.Email,
             $"Your request from: {leaveRequest.StartDate} till {leaveRequest.EndDate}",
             $"Leave Request: {approvalStatus}.");
     }
@@ -73,8 +82,7 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
             return false;
         }
         
-        int daysRequested = (int)(model.EndDate.Value
-                                  - model.StartDate.Value).TotalDays;
+        int daysRequested = (int)(model.EndDate.Value - model.StartDate.Value).TotalDays;
 
         if(daysRequested > leaveAllocation.NumberOfDays) 
         {
@@ -87,7 +95,7 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
 
         await AddAsync(leaveRequest);
 
-        await emailSender.SendEmailAsync(user?.Email,
+        await emailSender.SendEmailAsync(user.Email,
             "Leave Request Submitted.",
             $"Leave request from: {leaveRequest.StartDate} untill {leaveRequest.EndDate}");
 
@@ -97,12 +105,19 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
     public async Task CancelLeaveRequest(int leaveRequestId)
     {
         var leaveRequest = await GetAsync(leaveRequestId);
+
+        if(leaveRequest == null)
+        {
+            return;
+        }
+
         leaveRequest.Cancelled = true;
+        
         await UpdateAsync(leaveRequest);
 
         var user = await userManager.FindByIdAsync(leaveRequest.RequestEmployeeId);
 
-        await emailSender.SendEmailAsync(user?.Email,
+        await emailSender.SendEmailAsync(user.Email,
             $"Request from: {leaveRequest.StartDate} till {leaveRequest.EndDate}",
             "Leave Request Cancelled.");
     }

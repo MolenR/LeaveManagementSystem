@@ -128,7 +128,7 @@ public class LeaveAllocationRepo : GenericRepo<LeaveAllocation>, ILeaveAllocatio
         return true;
     }
 
-    public async Task<LeaveAllocation> GetEmployeeAllocation(string employeeId, int leaveTypeId)
+    public async Task<LeaveAllocation?> GetEmployeeAllocation(string employeeId, int leaveTypeId)
     {
         return await context.LeaveAllocations
             .FirstOrDefaultAsync(

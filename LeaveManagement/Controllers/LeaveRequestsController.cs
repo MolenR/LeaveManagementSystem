@@ -6,6 +6,7 @@ using LeaveManagement.MVC.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using LeaveManagement.MVC.Constants;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagement.MVC.Controllers;
 
@@ -52,7 +53,7 @@ public class LeaveRequestsController : Controller
     {
         try
         {
-            await leaveRequestRepo.ChangeApprovalStatus(id, approved);
+            await leaveRequestRepo.ChangeApprovalStatus(id, approved); /* NULL REFERNCE EXCEPTION ID=0*/
         }
         catch (Exception)
         {
@@ -63,13 +64,13 @@ public class LeaveRequestsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpPost]
+    [HttpPost, ActionName("Cancel")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id)
     {
         try
         {
-            await leaveRequestRepo.CancelLeaveRequest(id);
+            await leaveRequestRepo.CancelLeaveRequest(id); /* NULL REFERENCE EXCEPTION. ID = 0 */
         }
         catch (Exception)
         {
