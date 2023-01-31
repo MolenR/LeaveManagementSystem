@@ -7,8 +7,8 @@ public class LeaveAllocation : BaseData
     public int NumberOfDays { get; set; }
 
     [ForeignKey("LeaveTypeId")]
-    public LeaveType LeaveType { get; set; } = null!;
+    public LeaveType LeaveType { get; set; }
     public int LeaveTypeId { get; set; }
-    public string EmployeeId { get; set; } = null!;
+    public string EmployeeId { get; set; }
     public int Period { get; set; }
 }
