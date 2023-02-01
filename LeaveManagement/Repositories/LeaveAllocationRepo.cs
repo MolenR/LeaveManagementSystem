@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LeaveManagement.Data;
-using LeaveManagement.MVC.Constants;
-using LeaveManagement.MVC.Data;
+using LeaveManagement.Common.Constants;
 using LeaveManagement.MVC.Interfaces;
 using LeaveManagement.MVC.Models;
-using LeaveManagement.MVC.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 
 namespace LeaveManagement.MVC.Repositories;
 

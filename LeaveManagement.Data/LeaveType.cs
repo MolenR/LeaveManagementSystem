@@ -1,4 +1,4 @@
-﻿namespace LeaveManagement.MVC.Data;
+﻿namespace LeaveManagement.Data;
 
 public class LeaveType : BaseData
 {

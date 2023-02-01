@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using LeaveManagement.Common.Constants;
 
-namespace LeaveManagement.MVC.Configurations.Entities;
+
+namespace LeaveManagement.Data.Configurations.Entities;
 
 public class UserRoleSeedConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
 {

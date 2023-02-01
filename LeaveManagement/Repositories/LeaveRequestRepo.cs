@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using LeaveManagement.Data;
-using LeaveManagement.MVC.Data;
+using LeaveManagement.MVC;
 using LeaveManagement.MVC.Interfaces;
 using LeaveManagement.MVC.Models;
 using Microsoft.AspNetCore.Identity;

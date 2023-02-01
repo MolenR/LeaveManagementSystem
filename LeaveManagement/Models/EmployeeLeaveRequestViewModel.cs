@@ -1,6 +1,4 @@
-﻿using LeaveManagement.MVC.Data;
-
-namespace LeaveManagement.MVC.Models;
+﻿namespace LeaveManagement.MVC.Models;
 
 public class EmployeeLeaveRequestViewModel
 {

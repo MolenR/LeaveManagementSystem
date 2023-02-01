@@ -1,5 +1,4 @@
 ﻿using LeaveManagement.Data;
-using LeaveManagement.MVC.Data;
 using LeaveManagement.MVC.Interfaces;
 
 namespace LeaveManagement.MVC.Repositories;

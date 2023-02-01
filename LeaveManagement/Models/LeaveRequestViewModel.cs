@@ -1,5 +1,4 @@
-﻿using LeaveManagement.MVC.Data;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LeaveManagement.MVC.Models;
 

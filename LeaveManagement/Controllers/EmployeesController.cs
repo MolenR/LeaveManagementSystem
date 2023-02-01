@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using LeaveManagement.MVC.Constants;
-using LeaveManagement.MVC.Data;
+using LeaveManagement.Data;
 using LeaveManagement.MVC.Interfaces;
 using LeaveManagement.MVC.Models;
 using Microsoft.AspNetCore.Identity;

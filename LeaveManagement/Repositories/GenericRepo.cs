@@ -1,5 +1,5 @@
 ﻿using LeaveManagement.Data;
-using LeaveManagement.MVC.Data;
+using LeaveManagement.MVC;
 using LeaveManagement.MVC.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

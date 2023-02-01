@@ -5,14 +5,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using LeaveManagement.Data;
 using Microsoft.AspNetCore.Authentication;
-using LeaveManagement.MVC.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using LeaveManagement.MVC.Constants;
 
 namespace LeaveManagement.Areas.Identity.Pages.Account
 {

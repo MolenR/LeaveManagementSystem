@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LeaveManagement.MVC.Data;
+using LeaveManagement.Data;
+using LeaveManagement.Common.Constants;
 using AutoMapper;
 using LeaveManagement.MVC.Models;
 using LeaveManagement.MVC.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using LeaveManagement.MVC.Constants;
 
 namespace LeaveManagement.MVC.Controllers;
 

@@ -1,7 +1,7 @@
-﻿namespace LeaveManagement.MVC.Constants;
+﻿namespace LeaveManagement.Common.Constants;
 
 /* Get rid of MAGIC STRINGS  with naming covension*/
-static class Roles
+public static class Roles
 {
     public const string Administrator = "Administrator";
     public const string User = "User";

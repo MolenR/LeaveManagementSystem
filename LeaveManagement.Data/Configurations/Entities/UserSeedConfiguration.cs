@@ -1,9 +1,9 @@
-﻿using LeaveManagement.MVC.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using LeaveManagement.Common.Constants;
 
-namespace LeaveManagement.MVC.Configurations.Entities;
+namespace LeaveManagement.Data.Configurations.Entities;
 
 /* SETTING ADMIN USER FOR SYSTEM 
 --------------------------------------------------------------------*/

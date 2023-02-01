@@ -1,4 +1,4 @@
-using LeaveManagement.MVC.Data;
+using LeaveManagement.Data;
 using LeaveManagement.MVC.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,6 @@ using LeaveManagement.MVC.Configurations;
 using LeaveManagement.MVC.Interfaces;
 using LeaveManagement.MVC.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using LeaveManagement.Data;
 using Serilog;
 
 namespace LeaveManagement
