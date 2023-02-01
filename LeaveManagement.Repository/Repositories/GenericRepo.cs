@@ -1,9 +1,8 @@
-﻿using LeaveManagement.Data;
-using LeaveManagement.MVC;
-using LeaveManagement.MVC.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using LeaveManagement.Data;
+using LeaveManagement.Repository.Interfaces;
 
-namespace LeaveManagement.MVC.Repositories;
+namespace LeaveManagement.Repository.Repositories;
 
 /* SETUP ASYNCHRONOUS DATABASE REPOSITORY PATTERN AND DEPENDENCY INJECTION
 ------------------------------------------------------------------------------*/

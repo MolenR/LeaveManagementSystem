@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using LeaveManagement.Data;
-using LeaveManagement.MVC.Models;
+using LeaveManagement.Common.Models;
 
-namespace LeaveManagement.MVC.Configurations;
+namespace LeaveManagement.Web.Configurations;
 
 public class MapperConfig : Profile
 {

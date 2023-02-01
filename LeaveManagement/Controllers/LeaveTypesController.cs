@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using LeaveManagement.Data;
 using LeaveManagement.Common.Constants;
+using LeaveManagement.Common.Models;
+using LeaveManagement.Repository.Interfaces;
 using AutoMapper;
-using LeaveManagement.MVC.Models;
-using LeaveManagement.MVC.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 
-namespace LeaveManagement.MVC.Controllers;
+namespace LeaveManagement.Web.Controllers;
 
 [Authorize(Roles = Roles.Administrator)]
 public class LeaveTypesController : Controller

@@ -1,4 +1,6 @@
-﻿namespace LeaveManagement.MVC.Interfaces;
+﻿using LeaveManagement.Repository;
+
+namespace LeaveManagement.Repository.Interfaces;
 
 /* SETUP ASYNCHRONOUS DATABASE INTERFACE
 ------------------------------------------------------------------------------*/

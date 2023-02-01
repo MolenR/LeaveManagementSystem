@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using LeaveManagement.MVC.Models;
-using LeaveManagement.MVC.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using LeaveManagement.Common.Models;
 using LeaveManagement.Common.Constants;
+using LeaveManagement.Repository.Interfaces;
 
-namespace LeaveManagement.MVC.Controllers;
+namespace LeaveManagement.Web.Controllers;
 
 [Authorize]
 public class LeaveRequestsController : Controller
@@ -74,7 +74,7 @@ public class LeaveRequestsController : Controller
         catch (Exception ex)
         {
 
-            logger.LogError("ex, Error Canceling Leave Request");
+            logger.LogError(ex, "Error Canceling Leave Request");
         }
 
         return RedirectToAction(nameof(MyLeave));

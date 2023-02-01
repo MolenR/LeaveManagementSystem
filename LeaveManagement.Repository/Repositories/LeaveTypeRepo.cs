@@ -1,7 +1,7 @@
 ﻿using LeaveManagement.Data;
-using LeaveManagement.MVC.Interfaces;
+using LeaveManagement.Repository.Interfaces;
 
-namespace LeaveManagement.MVC.Repositories;
+namespace LeaveManagement.Repository.Repositories;
 
 public class LeaveTypeRepo : GenericRepo<LeaveType>, ILeaveTypeRepo
 {

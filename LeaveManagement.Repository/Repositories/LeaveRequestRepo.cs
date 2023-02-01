@@ -1,14 +1,14 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using LeaveManagement.Data;
-using LeaveManagement.MVC;
-using LeaveManagement.MVC.Interfaces;
-using LeaveManagement.MVC.Models;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using LeaveManagement.Common.Models;
+using LeaveManagement.Data;
+using LeaveManagement.Repository.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
-namespace LeaveManagement.MVC.Repositories;
+namespace LeaveManagement.Repository.Repositories;
 
 public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
 {

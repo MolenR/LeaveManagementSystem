@@ -1,7 +1,7 @@
-﻿using LeaveManagement.Data;
-using LeaveManagement.MVC.Models;
+﻿using LeaveManagement.Common.Models;
+using LeaveManagement.Data;
 
-namespace LeaveManagement.MVC.Interfaces;
+namespace LeaveManagement.Repository.Interfaces;
 
 public interface ILeaveRequestRepo : IGenericRepo<LeaveRequest>
 {

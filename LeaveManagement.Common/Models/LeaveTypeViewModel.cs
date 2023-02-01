@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LeaveManagement.MVC.Models;
+namespace LeaveManagement.Common.Models;
 
 public class LeaveTypeViewModel
 {

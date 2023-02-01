@@ -1,9 +1,9 @@
-﻿using LeaveManagement.Models;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using LeaveManagement.Models;
 
-namespace LeaveManagement.Controllers
+namespace LeaveManagement.Web.Controllers
 {
     public class HomeController : Controller
     {
