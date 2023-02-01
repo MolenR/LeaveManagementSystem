@@ -96,18 +96,21 @@ public class LeaveAllocationRepo : GenericRepo<LeaveAllocation>, ILeaveAllocatio
             allocations.Add(new LeaveAllocation
             {
                 EmployeeId = employee.Id,
-                LeaveTypeId = leaveTypeId,
+                LeaveTypeId = (int)leaveTypeId,
                 Period = period,
                 NumberOfDays = leaveType.DefaultDays
             });
+            
             employeeNewAllocations.Add(employee);
 
             await AddRangeAsync(allocations);
         }
 
-
         foreach (var employee in employeeNewAllocations)
         {
+            if (await AllocationExists(employee.Id, leaveTypeId, period))
+                continue;
+
             await _emailSender.SendEmailAsync(employee.Email,
             $"Leave ALlocation Posted for {period}", $"Your {leaveType.Name} are set to: {leaveType.DefaultDays}");
         }

@@ -46,7 +46,7 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
         
         if (approved)
         {
-            var allocation = await _leaveAllocationRepo.GetEmployeeAllocation(leaveRequest.RequestEmployeeId, leaveRequest.LeaveTypeId);
+            var allocation = await _leaveAllocationRepo.GetEmployeeAllocation(leaveRequest?.RequestEmployeeId, leaveRequest.LeaveTypeId);
             int daysRequested = (int)(leaveRequest.EndDate - leaveRequest.StartDate).TotalDays;
             allocation.NumberOfDays -= daysRequested;
             await _leaveAllocationRepo.UpdateAsync(allocation);
@@ -58,7 +58,7 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
 
         var approvalStatus = approved ? "Approved" : "Declined";
        
-        await _emailSender.SendEmailAsync(user?.Email,
+        await _emailSender.SendEmailAsync(user.Email,
             $"Your request from: {leaveRequest.StartDate} till {leaveRequest.EndDate}",
             $"Leave Request: {approvalStatus}.");
     }
@@ -66,7 +66,7 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
     public async Task<bool> CreateLeaveRequest(LeaveRequestCreateViewModel model)
     {
         var user = await _userManager.GetUserAsync(_httpContextAccessor?.HttpContext?.User);
-        var leaveAllocation = await _leaveAllocationRepo.GetEmployeeAllocation(user?.Id, model.LeaveTypeId);
+        var leaveAllocation = await _leaveAllocationRepo.GetEmployeeAllocation(user.Id, model.LeaveTypeId);
         
         int daysRequested = (int)(model.EndDate.Value - model.StartDate.Value).TotalDays;
 
@@ -81,26 +81,26 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
 
         await AddAsync(leaveRequest);
 
-        await _emailSender.SendEmailAsync(user?.Email,
+        await _emailSender.SendEmailAsync(user.Email,
             "Leave Request Submitted.",
             $"Leave request from: {leaveRequest.StartDate} untill {leaveRequest.EndDate}");
 
         return true;
     }
     
-    public async Task CancelLeaveRequest(int leaveRequestId)
+    /* NULLREFERENCE EXCEPTION PROBLEM */
+    public async Task CancelLeaveRequest(int? leaveRequestId)
     {
-        var leaveRequest = await GetAsync(leaveRequestId);
-
-        leaveRequest.Cancelled = true;
+        var leaveRequest = await GetAsync(leaveRequestId); // Request ID = 0;
+        
+        /*if(leaveRequest == null) // IN action because of Run problem
+        {
+            return;
+        }*/
+            
+        leaveRequest.Cancelled = true; 
         
         await UpdateAsync(leaveRequest);
-
-        var user = await _userManager.FindByIdAsync(leaveRequest?.RequestEmployeeId);
-
-        await _emailSender.SendEmailAsync(user?.Email,
-            $"Request from: {leaveRequest.StartDate} till {leaveRequest.EndDate}",
-            "Leave Request Cancelled.");
     }
 
     public async Task<AdminLeaveRequestViewModel> GetAdminLeaveRequestList()
@@ -121,7 +121,7 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
 
         foreach(var leaveRequest in model.LeaveRequests)
         {
-            string? requestEmployeeId = leaveRequest.RequestEmployeeId;
+            string requestEmployeeId = leaveRequest.RequestEmployeeId;
             leaveRequest.Employee = _mapper.Map<EmployeeListViewModel>(await _userManager.FindByIdAsync(requestEmployeeId));
         }
 
@@ -135,7 +135,7 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
     }
 
 
-    public async Task<LeaveRequestViewModel?> GetLeaveRequestAsync(int? id)
+    public async Task<LeaveRequestViewModel?> GetLeaveRequestAsync(int id)
     {
         LeaveRequest? leaveRequest = await _context.LeaveRequests
             .Include(leave => leave.LeaveType)
@@ -144,14 +144,14 @@ public class LeaveRequestRepo : GenericRepo<LeaveRequest>, ILeaveRequestRepo
         var model = _mapper.Map<LeaveRequestViewModel>(leaveRequest);
         
         model.Employee = _mapper.Map<EmployeeListViewModel>(await _userManager
-            .FindByIdAsync(leaveRequest.RequestEmployeeId));
+            .FindByIdAsync(leaveRequest?.RequestEmployeeId));
 
         return model;
     }
     
     public async Task<EmployeeLeaveRequestViewModel> GetLeaveDetails()
     {
-        Employee? user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+        Employee user = await _userManager.GetUserAsync(_httpContextAccessor?.HttpContext?.User);
         var allocations = (await _leaveAllocationRepo.GetEmployeeAllocations(user.Id)).LeaveAllocations;
         var requests = _mapper.Map<List<LeaveRequestViewModel>>(await GetAllAsync(user.Id));
 
