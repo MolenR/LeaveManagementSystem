@@ -91,11 +91,18 @@ public class LeaveTypesController : Controller
             return NotFound();
         }
 
+        var leaveType = await leaveTypeRepo.GetAsync(id);
+        if(leaveType == null)
+        {
+            return NotFound();
+
+        }
+
         if (ModelState.IsValid)
         {
             try
             {
-                var leaveType = mapper.Map<LeaveType>(leaveTypeViewModel);
+                mapper.Map(leaveTypeViewModel, leaveType);
                 await leaveTypeRepo.UpdateAsync(leaveType);
             }
             catch (DbUpdateConcurrencyException)

@@ -15,11 +15,13 @@ public class LeaveRequestsController : Controller
 {
     private readonly ILeaveTypeRepo leaveTypeRepo;
     private readonly ILeaveRequestRepo leaveRequestRepo;
+    private readonly ILogger<LeaveRequestsController> logger;
 
-    public LeaveRequestsController(ILeaveTypeRepo leaveTypeRepo, ILeaveRequestRepo leaveRequestRepo)
+    public LeaveRequestsController(ILeaveTypeRepo leaveTypeRepo, ILeaveRequestRepo leaveRequestRepo, ILogger<LeaveRequestsController> logger)
     {
         this.leaveTypeRepo = leaveTypeRepo;
         this.leaveRequestRepo = leaveRequestRepo;
+        this.logger = logger;
     }
 
     [Authorize(Roles = Roles.Administrator)]
@@ -72,10 +74,10 @@ public class LeaveRequestsController : Controller
         {
             await leaveRequestRepo.CancelLeaveRequest(id); 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
-            ModelState.AddModelError(string.Empty, "Operation Failed Try Again");
+            logger.LogError("ex, Error Canceling Leave Request");
         }
 
         return RedirectToAction(nameof(MyLeave));
