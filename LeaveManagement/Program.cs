@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using LeaveManagement.Data;
 using LeaveManagement.Repository.Services;
-using LeaveManagement.Web.Configurations;
 using LeaveManagement.Repository.Interfaces;
 using LeaveManagement.Repository.Repositories;
+using LeaveManagement.Repository.Configurations;
 using Serilog;
 
 namespace LeaveManagement.Web;
