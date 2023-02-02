@@ -17,10 +17,10 @@ public class UserSeedConfiguration : IEntityTypeConfiguration<Employee>
             new Employee
             {
                 Id = "62b3adbb-e3a7-4f5f-8a05-61d2074df6c2",
-                Email = "admin@host.com",
-                NormalizedEmail = "ADMIN@HOST.COM",
-                UserName = "admin@host.com",
-                NormalizedUserName = "ADMIN@HOST.COM",
+                Email = "admin@localhost.com",
+                NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                UserName = "admin@localhost.com",
+                NormalizedUserName = "ADMIN@LOCALHOST.COM",
                 FirstName = "System",
                 LastName = "Admin",
                 PasswordHash = hash.HashPassword(null, "L0g!n@123"),
@@ -29,10 +29,10 @@ public class UserSeedConfiguration : IEntityTypeConfiguration<Employee>
             new Employee
             {
                 Id = "f6c2adbb-4f5f-8a05-e3a7-62b3adbb61d2",
-                Email = "user@login.com",
-                NormalizedEmail = "USER@LOGIN.COM",
-                UserName = "user@login.com",
-                NormalizedUserName = "USER@LOGIN.COM",
+                Email = "user@localhost.com",
+                NormalizedEmail = "USER@LOCALHOST.COM",
+                UserName = "user@localhost.com",
+                NormalizedUserName = "USER@LOCALHOST.COM",
                 FirstName = "User",
                 LastName = "Test",
                 PasswordHash = hash.HashPassword(null, "P@ssW0rd!23"),
